@@ -1,0 +1,346 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* body{ 
+  background:url("/d/public/sea.jpg") ;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+} */
+
+/* body{ */
+  /* background-color: rgba(12, 146, 213, 0.9); */
+  /* background:url("/d/public/c.jpg") ; */
+  /* background-image: url('/next.sv');
+  background-size: cover; 
+  background-position: center; */
+
+/* } */
+
+
+
+
+
+body {
+  font-family: 'Judson', serif;
+  /* background: linear-gradient(to bottom,
+    rgba(99, 167, 191, 1),
+    rgba(94, 86, 179, 1),
+    rgba(72, 139, 163, 1),
+    rgba(79, 124, 179, 1),
+    rgba(52, 115, 140, 1),
+    rgba(48, 92, 145, 1),
+    rgba(39, 82, 145, 1),
+    rgba(19, 58, 110, 1),
+    rgba(10, 50, 80, 1),
+    rgba(40, 41, 100, 1),
+    rgba(14, 52, 94, 1),
+    black); */
+    background:url("/sea.jpg") no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  max-width: 100vw;
+  min-height: 100vh;
+  overflow-x: hidden;
+  /* color: white; */
+  position: relative;
+  margin: 0;
+ 
+}
+
+body::after {
+  position: fixed;
+  content: '';
+  pointer-events: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: radial-gradient(circle at center, transparent, rgba(0, 0, 0, 0.5));
+}
+
+@media (min-width: 40em) {
+  body {
+    font-size: 2rem;
+  }
+}
+
+.rays {
+  --r: 10deg;
+  --c: rgba(255, 251, 227, 0.2);
+  --size: max(60vh, 80rem);
+  --mask: radial-gradient(circle at center, black, transparent 50%);
+  position: fixed;
+  pointer-events: none;
+  top: calc(var(--size) * -0.55);
+  left: 50%;
+  width: var(--size);
+  height: var(--size);
+}
+
+.rays > div {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: repeating-conic-gradient(var(--c), var(--c) var(--r), transparent var(--r), transparent calc(var(--r) * 2));
+  -webkit-mask-image: var(--mask);
+  mask-image: var(--mask);
+}
+
+@keyframes raysRotate {
+  50% {
+    transform: rotate(180deg) scale(1.5);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+.fishWrapper {
+  --mask: linear-gradient(180deg, rgba(0, 0, 0, 1.0), transparent);
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  perspective: 100rem;
+  perspective-origin: center center;
+  transform-style: preserve-3d;
+  pointer-events: none;
+  -webkit-mask-image: var(--mask);
+  mask-image: var(--mask);
+  z-index: 2;
+}
+
+.fish {
+  --bodyW: 2rem;
+  --o: 0.95;
+  --l: 100%;
+  --c: hsla(250deg, 50%, var(--l), var(--o, 0.6));
+  --size: 10rem;
+  position: relative;
+  width: var(--size);
+  height: var(--size);
+  transform-style: preserve-3d;
+  transform-origin: center;
+}
+
+@media (min-width: 1000px) {
+  .fish {
+    --size: 20rem;
+    --bodyW: 4rem;
+  }
+}
+
+.fish__skeleton {
+  --clip: polygon(0 var(--bodyW), 45% 0, 55% 0, 100% var(--bodyW), 50% 100%);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: 
+    repeating-linear-gradient(0deg, var(--c), var(--c) 0.1rem, transparent 0, transparent 0.5rem),
+    linear-gradient(var(--c) var(--bodyW), transparent var(--bodyW)), 
+    linear-gradient(90deg, transparent calc((var(--bodyW) / 2) - 0.1rem), var(--c) 0, var(--c) calc((var(--bodyW) / 2) + 0.1rem), transparent 0);
+  top: calc(var(--bodyW) / 4);
+  left: calc(var(--bodyW) * 0.75);
+  width: var(--bodyW);
+  height: calc(var(--bodyW) * 4);
+  -webkit-clip-path: var(--clip);
+  clip-path: var(--clip);
+  opacity: 0;
+  transform: translate3d(0, 0, calc(var(--bodyW) / -2)) rotate(90deg);
+  transform-origin: center center;
+}
+
+.fish__inner {
+  --a: 9.5deg;
+  width: calc(var(--bodyW) * 1.5);
+  height: var(--size);
+  transform-style: preserve-3d;
+  transform: rotate(90deg);
+}
+
+.fish__body {
+  --l: 75%;
+  --c: hsla(250deg, 50%, var(--l), var(--o, 0.6));
+  position: absolute;
+  top: var(--bodyW);
+  left: 0;
+  width: var(--bodyW);
+  height: calc(3 * var(--bodyW));
+  background: var(--c);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform: translateZ(calc(var(--bodyW) / -2)) rotateX(var(--a));
+  transform-origin: center top;
+}
+
+.fish__body:nth-child(2) {
+  --i: 2;
+  --l: 75%;
+  transform: translateZ(calc(var(--bodyW) / 2)) rotateX(calc(var(--a) * -1));
+}
+
+.fish__body:nth-child(3) {
+  --i: 3;
+  --l: 95%;
+  transform: rotateY(90deg) translate3d(calc(var(--bodyW) / -2), 0, 0) rotateX(var(--a));
+  transform-origin: left top;
+}
+
+.fish__body:nth-child(4) {
+  --i: 4;
+  --l: 50%;
+  transform: rotateY(90deg) translate3d(calc(var(--bodyW) / 2), 0, 0) rotateX(calc(var(--a) * -1));
+  transform-origin: right top;
+}
+
+.fish__head {
+  --a: 23.5deg;
+  --l: 85%;
+  --c: hsla(250deg, 50%, var(--l), var(--o, 0.6));
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--bodyW);
+  height: var(--bodyW);
+  background: var(--c);
+  clip-path: polygon(40% 0, 60% 0, 100% 100%, 0 100%);
+  transform: translateZ(calc(var(--bodyW) / 2)) rotateX(var(--a));
+  transform-origin: center bottom;
+}
+
+.fish__head--2 {
+  --i: 2;
+  --l: 80%;
+  transform: translateZ(calc(var(--bodyW) / -2)) rotateX(calc(var(--a) * -1));
+}
+
+.fish__head--3 {
+  --i: 3;
+  --l: 90%;
+  transform: rotateY(90deg) translate3d(calc(var(--bodyW) / -2), 0, 0) rotateX(calc(var(--a) * -1));
+  transform-origin: left bottom;
+}
+
+.fish__head--4 {
+  --l: 55%;
+  transform: rotateY(90deg) translate3d(calc(var(--bodyW) / 2), 0, 0) rotateX(var(--a));
+  transform-origin: right bottom;
+}
+
+.fish__tailMain {
+  --o: 0.9;
+  --l: 90%;
+  --c: hsla(250deg, 50%, var(--l), var(--o, 0.6));
+  width: var(--bodyW);
+  height: var(--bodyW);
+  background-color: var(--c);
+  position: absolute;
+  left: 0;
+  bottom: var(--bodyW);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.fish__tailFork {
+  --o: 0.9;
+  --l: 95%;
+  --c: hsla(250deg, 50%, var(--l), var(--o, 0.6));
+  width: var(--bodyW);
+  height: var(--bodyW);
+  background-color: var(--c);
+  position: absolute;
+  left: calc(var(--bodyW) / 2);
+  bottom: calc(var(--bodyW) * 2);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.fish__fin {
+  --o: 0.8;
+  --l: 75%;
+  --c: hsla(250deg, 50%, var(--l), var(--o, 0.6));
+  position: absolute;
+  width: calc(var(--bodyW) * 1.5);
+  height: var(--bodyW);
+  background-color: var(--c);
+  top: 0;
+  left: calc(var(--bodyW) / 2);
+  clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
+}
+
+.fish__fin--2 {
+  --o: 0.6;
+  --l: 80%;
+  top: calc(var(--bodyW) * 2);
+  transform: rotate(20deg);
+}
+
+.bubbles {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.bubblesInner {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.bubblesBubble {
+  position: absolute;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (min-width: 1000px) {
+  .bubblesBubble {
+    width: 4rem;
+    height: 4rem;
+  }
+}
+
+.content {
+  margin: 0;
+  padding: 0;
+  z-index: 0;
+}
+
+section {
+  position: relative;
+  min-height: 100vh;
+}
+
+section p {
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  font-size: 2rem;
+  color: white;
+}
+
+.indicator {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5rem;
+  color: white;
+}
+
+.indicator span {
+  display: block;
+  text-align: center;
+} 
